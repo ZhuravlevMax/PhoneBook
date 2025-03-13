@@ -14,7 +14,7 @@ class HTMLParser {
         var items = [Item]()
         
         // Получаем путь к файлу
-        guard let filePath = Bundle.main.path(forResource: "PhoneBook", ofType: "html") else {
+        guard let filePath = Bundle.main.path(forResource: HtmlEnum.example.rawValue, ofType: "html") else {
             print("Файл не найден")
             return items
         }
