@@ -7,5 +7,5 @@
 
 enum HtmlEnum: String {
     case example = "Example"
-    case PhoneBook = "PhoneBook"
+    case phoneBook = "PhoneBook"
 }
