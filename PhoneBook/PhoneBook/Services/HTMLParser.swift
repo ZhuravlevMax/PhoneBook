@@ -12,6 +12,7 @@ import SwiftSoup
 class HTMLParser {
     static func parseHTML(from fileName: String) -> [Item] {
         var items = [Item]()
+        var persons = [Person]()
         
         // Получаем путь к файлу
         guard let filePath = Bundle.main.path(forResource: HtmlEnum.phoneBook.rawValue, ofType: "html") else {
@@ -25,28 +26,49 @@ class HTMLParser {
             
             // Парсинг HTML
             let document = try SwiftSoup.parse(html)
-            
-//            let link = try document.select("a").first()
-//            print(link)
-//            let linkHref = try link?.attr("href")
-//            print(linkHref)
-//            let linkText = try link?.text()
-//            print(linkText)
-            
-            let links = try document.select("a")
-            var linksDict = [String:String]()
-            for link in links {
-                
-                let id = try link.attr("href")
-                let text = try link.text()
-                
-                linksDict.updateValue(text, forKey: id)
 
+            // создаю словарь с ID группамми и их названиями
+            let tagsOfGroups = try document.select("a")
+            var groupDict = [String:String]()
+            for tag in tagsOfGroups {
+                
+                var id = try tag.attr("href")
             
+                let nameOfGroup = try tag.text()
+                
+                if id.hasPrefix("#group") {
+                    id = String(id.dropFirst(9))
+                    groupDict.updateValue(nameOfGroup, forKey: id)
+//                    let item = Item(title: groupDict[id] ?? "", link: "")
+//                    items.append(item)
+                }
+
             }
             
-            print(linksDict)
+            //Создаю объекты Person
+            var tagsOfPerson = try document.select("tr")
+
+            for tag in tagsOfPerson {
+                var groupId = try tag.attr("class")
+                if groupId.hasPrefix("SortList") {
+                    groupId = String(groupId.dropFirst(9))
+                    var personId = try tag.attr("id")
+                    var nameOfPerson = try tag.text()
+                    let person = Person(groupId: groupId, personId: personId, name: nameOfPerson)
+                    persons.append(person)
+                }
+                
+        
+            }
             
+            //print(groupDict)
+            //print(persons)
+            print(persons.count)
+            print(persons[1].groupId)
+            print(persons[1].personId)
+            print(persons[1].name)
+            
+
 //            let linkHrefs = try links.map { try $0.attr("href") }
 //            //print(linkHrefs)
 //            
