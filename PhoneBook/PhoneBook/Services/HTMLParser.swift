@@ -50,23 +50,36 @@ class HTMLParser {
 
             for tag in tagsOfPerson {
                 var groupId = try tag.attr("class")
+                
                 if groupId.hasPrefix("SortList") {
+                    
+                    //Получаю ID группы для Person
                     groupId = String(groupId.dropFirst(9))
                     var personId = try tag.attr("id")
-                    var nameOfPerson = try tag.text()
-                    let person = Person(groupId: groupId, personId: personId, name: nameOfPerson)
+                    
+                    //Получаю должность для Person
+                    //Здесь я получил должность с именем. Чтобы оставить только должность, я делаю должность с маленькой буквы и убирают весь текст, который начинается с больщой буквы (Имя)
+                    var jobTitle = try tag.select("td:nth-child(2)").text()
+                    //Здесь делаю должность с маленькой буквы
+                    jobTitle = jobTitle.prefix(1).lowercased() + jobTitle.dropFirst()
+                    
+                    //Здесь убираю часть строки с именем
+                    if let range = jobTitle.range(of: "[А-ЯA-Z]", options: .regularExpression) {
+                        jobTitle = String(jobTitle[..<range.lowerBound])
+                        jobTitle = jobTitle.prefix(1).uppercased() + jobTitle.dropFirst()
+                    }
+
+                    let person = Person(groupId: groupId, personId: personId, name: jobTitle)
                     persons.append(person)
                 }
                 
         
             }
-            
-            //print(groupDict)
-            //print(persons)
+
             print(persons.count)
-            print(persons[1].groupId)
-            print(persons[1].personId)
-            print(persons[1].name)
+            print(persons[0].groupId)
+            print(persons[0].personId)
+            print(persons[0].name)
             
 
 //            let linkHrefs = try links.map { try $0.attr("href") }
