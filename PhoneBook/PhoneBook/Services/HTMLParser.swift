@@ -55,22 +55,30 @@ class HTMLParser {
                     
                     //Получаю ID группы для Person
                     groupId = String(groupId.dropFirst(9))
-                    var personId = try tag.attr("id")
+                    let personId = try tag.attr("id")
                     
                     //Получаю должность для Person
                     //Здесь я получил должность с именем. Чтобы оставить только должность, я делаю должность с маленькой буквы и убирают весь текст, который начинается с больщой буквы (Имя)
                     var jobTitle = try tag.select("td:nth-child(2)").text()
-                    var personName = try tag.select("strong").text()
                     //Здесь делаю должность с маленькой буквы
                     jobTitle = jobTitle.prefix(1).lowercased() + jobTitle.dropFirst()
                     
                     //Здесь убираю часть строки с именем
                     if let range = jobTitle.range(of: "[А-ЯA-Z]", options: .regularExpression) {
                         jobTitle = String(jobTitle[..<range.lowerBound])
-                        jobTitle = jobTitle.prefix(1).uppercased() + jobTitle.dropFirst()
+                        
                     }
+                    
+                    jobTitle = jobTitle.prefix(1).uppercased() + jobTitle.dropFirst()
+                    
+                    let personName = try tag.select("strong").text()
+                    let workPhone = try tag.select("td:nth-child(3)").text()
+                    let cityPhone = try tag.select("td:nth-child(4)").text()
+                    let buildingRoom = try tag.select("td:nth-child(5)").text()
+                    
+                    
 
-                    let person = Person(groupId: groupId, personId: personId, jobTitle: jobTitle, personName: personName)
+                    let person = Person(groupId: groupId, personId: personId, jobTitle: jobTitle, personName: personName, workPhone: workPhone, cityPhone: cityPhone, buildingRoom: buildingRoom)
                     persons.append(person)
                 }
                 
@@ -78,10 +86,14 @@ class HTMLParser {
             }
 
             print(persons.count)
-            print(persons[0].groupId)
-            print(persons[0].personId)
-            print(persons[0].jobTitle)
-            print(persons[0].personName)
+            print(persons[10].groupId)
+            print(persons[10].personId)
+            print(persons[10].jobTitle)
+            print(persons[10].personName)
+            print(persons[10].workPhone)
+            print(persons[10].cityPhone)
+            print(persons[10].buildingRoom)
+        
             
 
 //            let linkHrefs = try links.map { try $0.attr("href") }

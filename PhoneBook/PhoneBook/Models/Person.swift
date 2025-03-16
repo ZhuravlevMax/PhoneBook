@@ -10,4 +10,8 @@ struct Person {
     let personId: String
     let jobTitle: String
     let personName: String
+    let workPhone: String
+    let cityPhone: String
+    let buildingRoom: String
+    
 }
