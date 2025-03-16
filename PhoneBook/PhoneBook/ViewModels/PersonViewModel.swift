@@ -10,30 +10,33 @@ import Foundation
 class PersonViewModel {
     private var persons: [Person] = []
     private var groups: [String: String] = [:]
+    private var personsGrouped: [String: [Person]] = [:]
     
     var numberOfPersons: Int {
         return persons.count
+    }
+    
+    var groupsOfPersons: [String: [Person]] {
+        return personsGrouped
     }
     
     func person(at index: Int) -> Person {
         return persons[index]
     }
     
+    
+    
     func loadData(completion: @escaping () -> Void) {
         // Используем сервис для парсинга HTML
         DispatchQueue.global(qos: .background).async {
-            self.persons = HTMLParser.parseHTML(from: HtmlEnum.phoneBook.rawValue)
+            self.persons = HTMLParser.parseHTMLForPersons(from: HtmlEnum.phoneBook.rawValue)
+            self.groups = HTMLParser.parseHTMLForGroups(from: HtmlEnum.phoneBook.rawValue)
+            self.personsGrouped = self.dividePeopleToGroups(self.persons, by: self.groups)
             DispatchQueue.main.async {
                 completion()
             }
         }
     }
-//
-//    struct People {
-//        let id: Int
-//        let groupId: Int
-//        let name: String
-//    }
 
     func dividePeopleToGroups(_ persons: [Person], by groups: [String: String]) -> [String: [Person]] {
         
@@ -51,30 +54,4 @@ class PersonViewModel {
         return groupedPersons
     }
 
-    // Пример использования
-//    let peoples = [
-//        People(id: 1, groupId: 1, name: "Alice"),
-//        People(id: 2, groupId: 2, name: "Bob"),
-//        People(id: 3, groupId: 1, name: "Charlie"),
-//        People(id: 4, groupId: 3, name: "David"),
-//        People(id: 5, groupId: 2, name: "Eve")
-//    ]
-//
-//    let groups = [
-//        1: "Group A",
-//        2: "Group B",
-//        3: "Group C"
-//    ]
-//
-//    let groupedPeoples = groupPeoples(peoples, by: groups)
-//
-//    // Вывод результата
-//    for (groupId, peoples) in groupedPeoples {
-//        if let groupName = groups[groupId] {
-//            print("Group \(groupName):")
-//            for people in peoples {
-//                print("  \(people.name)")
-//            }
-//        }
-//    }
 }

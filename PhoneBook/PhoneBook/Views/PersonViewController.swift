@@ -16,6 +16,7 @@ class PersonViewController: UIViewController {
         super.viewDidLoad()
         setupTableView()
         loadData()
+        
     }
     
     private func setupTableView() {
@@ -28,6 +29,7 @@ class PersonViewController: UIViewController {
     private func loadData() {
         viewModel.loadData { [weak self] in
             self?.tableView.reloadData()
+            print(self?.viewModel.groupsOfPersons["91cd0718-2d11-43ee-a2b2-e7898b2d662b"])
         }
         
     }

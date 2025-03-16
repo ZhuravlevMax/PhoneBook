@@ -54,7 +54,7 @@ class HTMLParser {
         
     }
     
-    static func parseHTML(from fileName: String) -> [Person] {
+    static func parseHTMLForPersons(from fileName: String) -> [Person] {
         var persons = [Person]()
         
         // Получаем путь к файлу
