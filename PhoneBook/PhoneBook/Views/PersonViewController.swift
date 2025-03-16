@@ -29,6 +29,7 @@ class PersonViewController: UIViewController {
         viewModel.loadData { [weak self] in
             self?.tableView.reloadData()
         }
+        
     }
 }
 

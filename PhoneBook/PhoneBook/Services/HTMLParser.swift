@@ -10,6 +10,50 @@ import Foundation
 import SwiftSoup
 
 class HTMLParser {
+    
+    static func parseHTMLForGroups(from fileName: String) -> [String:String] {
+        var groupDict = [String:String]()
+        
+        // Получаем путь к файлу
+        guard let filePath = Bundle.main.path(forResource: HtmlEnum.phoneBook.rawValue, ofType: "html") else {
+            print("Файл не найден")
+            return groupDict
+        }
+        
+        do {
+            
+            // Чтение содержимого файла
+            let html = try String(contentsOfFile: filePath, encoding: .utf8)
+            
+            // Парсинг HTML
+            let document = try SwiftSoup.parse(html)
+
+            // создаю словарь с ID группамми и их названиями
+            let tagsOfGroups = try document.select("a")
+            
+            for tag in tagsOfGroups {
+                
+                var id = try tag.attr("href")
+            
+                let nameOfGroup = try tag.text()
+                
+                if id.hasPrefix("#group") {
+                    id = String(id.dropFirst(9))
+                    groupDict.updateValue(nameOfGroup, forKey: id)
+                }
+
+            }
+            
+        } catch {
+            print("Ошибка при парсинге HTML: \(error)")
+        }
+        
+        return groupDict
+        
+        
+        
+    }
+    
     static func parseHTML(from fileName: String) -> [Person] {
         var persons = [Person]()
         
@@ -20,29 +64,12 @@ class HTMLParser {
         }
         
         do {
+            
             // Чтение содержимого файла
             let html = try String(contentsOfFile: filePath, encoding: .utf8)
             
             // Парсинг HTML
             let document = try SwiftSoup.parse(html)
-
-            // создаю словарь с ID группамми и их названиями
-            let tagsOfGroups = try document.select("a")
-            var groupDict = [String:String]()
-            for tag in tagsOfGroups {
-                
-                var id = try tag.attr("href")
-            
-                let nameOfGroup = try tag.text()
-                
-                if id.hasPrefix("#group") {
-                    id = String(id.dropFirst(9))
-                    groupDict.updateValue(nameOfGroup, forKey: id)
-//                    let item = Item(title: groupDict[id] ?? "", link: "")
-//                    items.append(item)
-                }
-
-            }
             
             //Создаю объекты Person
             let tagsOfPerson = try document.select("tr")
@@ -92,27 +119,7 @@ class HTMLParser {
             print(persons[10].workPhone)
             print(persons[10].cityPhone)
             print(persons[10].buildingRoom)
-        
-            
 
-//            let linkHrefs = try links.map { try $0.attr("href") }
-//            //print(linkHrefs)
-//            
-//            let linkHrefsGroup = linkHrefs.filter { $0.contains("group")}
-//            print(linkHrefsGroup)
-        
-            
-            // Пример: извлечение данных из таблицы
-//            let rows = try document.select("tr")
-//            for row in rows {
-//                let columns = try row.select("td")
-//                if columns.count >= 2 {
-//                    let title = try columns[0].text()
-//                    let link = try columns[1].text()
-//                    let item = Item(title: title, link: link)
-//                    items.append(item)
-//                }
-//            }
         } catch {
             print("Ошибка при парсинге HTML: \(error)")
         }
