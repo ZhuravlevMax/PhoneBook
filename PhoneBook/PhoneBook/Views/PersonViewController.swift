@@ -37,14 +37,25 @@ class PersonViewController: UIViewController {
 
 // MARK: - UITableViewDataSource
 extension PersonViewController: UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        viewModel.groupsOfPersons.count
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.numberOfPersons
+        //return viewModel.numberOfPersons
+        let key = Array(viewModel.groupsOfPersons.keys)[section]
+        return viewModel.groupsOfPersons[key]?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PersonTableViewCell.reuseIdentifier, for: indexPath) as! PersonTableViewCell
-        let person = viewModel.person(at: indexPath.row)
-        cell.configure(with: person)
+        let key = Array(viewModel.groupsOfPersons.keys)[indexPath.section]
+        if let person = viewModel.groupsOfPersons[key]?[indexPath.row] {
+            cell.configure(with: person)
+        }
+        //let person = viewModel.person(at: indexPath.row)
+        
         return cell
     }
 }

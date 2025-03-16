@@ -21,7 +21,7 @@ class PersonTableViewCell: UITableViewCell {
     
     func configure(with person: Person) {
         textLabel?.text = person.personName
-        detailTextLabel?.text = person.jobTitle
+        detailTextLabel?.text = person.workPhone
         
     }
 }
