@@ -9,7 +9,7 @@
 import UIKit
 
 class ItemViewController: UIViewController {
-    private let viewModel = ItemViewModel()
+    private let viewModel = PersonViewModel()
     private let tableView = UITableView()
     
     override func viewDidLoad() {
@@ -21,7 +21,7 @@ class ItemViewController: UIViewController {
     private func setupTableView() {
         view.addSubview(tableView)
         tableView.frame = view.bounds
-        tableView.register(ItemTableViewCell.self, forCellReuseIdentifier: ItemTableViewCell.reuseIdentifier)
+        tableView.register(PersonTableViewCell.self, forCellReuseIdentifier: PersonTableViewCell.reuseIdentifier)
         tableView.dataSource = self
     }
     
@@ -35,13 +35,13 @@ class ItemViewController: UIViewController {
 // MARK: - UITableViewDataSource
 extension ItemViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.numberOfItems
+        return viewModel.numberOfPersons
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ItemTableViewCell.reuseIdentifier, for: indexPath) as! ItemTableViewCell
-        let item = viewModel.item(at: indexPath.row)
-        cell.configure(with: item)
+        let cell = tableView.dequeueReusableCell(withIdentifier: PersonTableViewCell.reuseIdentifier, for: indexPath) as! PersonTableViewCell
+        let person = viewModel.person(at: indexPath.row)
+        cell.configure(with: person)
         return cell
     }
 }

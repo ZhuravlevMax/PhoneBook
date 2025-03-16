@@ -1,5 +1,5 @@
 //
-//  ItemTableViewCell.swift
+//  PersonTableViewCell.swift
 //  PhoneBook
 //
 //  Created by Максим Журавлев on 12.03.25.
@@ -8,8 +8,8 @@
 // Views/ItemTableViewCell.swift
 import UIKit
 
-class ItemTableViewCell: UITableViewCell {
-    static let reuseIdentifier = "ItemTableViewCell"
+class PersonTableViewCell: UITableViewCell {
+    static let reuseIdentifier = "PerosnTableViewCell"
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
@@ -19,8 +19,8 @@ class ItemTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with item: Item) {
-        textLabel?.text = item.title
-        detailTextLabel?.text = item.link
+    func configure(with person: Person) {
+        textLabel?.text = person.personName
+        detailTextLabel?.text = person.jobTitle
     }
 }

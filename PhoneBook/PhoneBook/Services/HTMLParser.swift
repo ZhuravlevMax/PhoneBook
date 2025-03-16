@@ -10,14 +10,14 @@ import Foundation
 import SwiftSoup
 
 class HTMLParser {
-    static func parseHTML(from fileName: String) -> [Item] {
+    static func parseHTML(from fileName: String) -> [Person] {
         var items = [Item]()
         var persons = [Person]()
         
         // Получаем путь к файлу
         guard let filePath = Bundle.main.path(forResource: HtmlEnum.phoneBook.rawValue, ofType: "html") else {
             print("Файл не найден")
-            return items
+            return persons
         }
         
         do {
@@ -118,6 +118,6 @@ class HTMLParser {
             print("Ошибка при парсинге HTML: \(error)")
         }
         
-        return items
+        return persons
     }
 }
