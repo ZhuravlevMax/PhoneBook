@@ -12,7 +12,7 @@ class PersonTableViewCell: UITableViewCell {
     static let reuseIdentifier = "PerosnTableViewCell"
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
     }
     
     required init?(coder: NSCoder) {
@@ -22,5 +22,6 @@ class PersonTableViewCell: UITableViewCell {
     func configure(with person: Person) {
         textLabel?.text = person.personName
         detailTextLabel?.text = person.jobTitle
+        
     }
 }

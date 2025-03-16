@@ -11,7 +11,6 @@ import SwiftSoup
 
 class HTMLParser {
     static func parseHTML(from fileName: String) -> [Person] {
-        var items = [Item]()
         var persons = [Person]()
         
         // Получаем путь к файлу
@@ -46,7 +45,7 @@ class HTMLParser {
             }
             
             //Создаю объекты Person
-            var tagsOfPerson = try document.select("tr")
+            let tagsOfPerson = try document.select("tr")
 
             for tag in tagsOfPerson {
                 var groupId = try tag.attr("class")

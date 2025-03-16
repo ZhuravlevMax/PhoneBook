@@ -8,7 +8,7 @@
 // Views/ItemViewController.swift
 import UIKit
 
-class ItemViewController: UIViewController {
+class PersonViewController: UIViewController {
     private let viewModel = PersonViewModel()
     private let tableView = UITableView()
     
@@ -33,7 +33,7 @@ class ItemViewController: UIViewController {
 }
 
 // MARK: - UITableViewDataSource
-extension ItemViewController: UITableViewDataSource {
+extension PersonViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.numberOfPersons
     }
