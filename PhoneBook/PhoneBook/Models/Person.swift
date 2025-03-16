@@ -8,5 +8,6 @@
 struct Person {
     let groupId: String
     let personId: String
-    let name: String
+    let jobTitle: String
+    let personName: String
 }

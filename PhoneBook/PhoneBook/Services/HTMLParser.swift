@@ -60,6 +60,7 @@ class HTMLParser {
                     //Получаю должность для Person
                     //Здесь я получил должность с именем. Чтобы оставить только должность, я делаю должность с маленькой буквы и убирают весь текст, который начинается с больщой буквы (Имя)
                     var jobTitle = try tag.select("td:nth-child(2)").text()
+                    var personName = try tag.select("strong").text()
                     //Здесь делаю должность с маленькой буквы
                     jobTitle = jobTitle.prefix(1).lowercased() + jobTitle.dropFirst()
                     
@@ -69,7 +70,7 @@ class HTMLParser {
                         jobTitle = jobTitle.prefix(1).uppercased() + jobTitle.dropFirst()
                     }
 
-                    let person = Person(groupId: groupId, personId: personId, name: jobTitle)
+                    let person = Person(groupId: groupId, personId: personId, jobTitle: jobTitle, personName: personName)
                     persons.append(person)
                 }
                 
@@ -79,7 +80,8 @@ class HTMLParser {
             print(persons.count)
             print(persons[0].groupId)
             print(persons[0].personId)
-            print(persons[0].name)
+            print(persons[0].jobTitle)
+            print(persons[0].personName)
             
 
 //            let linkHrefs = try links.map { try $0.attr("href") }
