@@ -7,6 +7,7 @@
 
 struct Person {
     let groupId: String
+    let groupIdName: String
     let personId: String
     let jobTitle: String
     let personName: String

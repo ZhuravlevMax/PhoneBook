@@ -58,6 +58,7 @@ class HTMLParser {
     
     static func parseHTMLForPersons(from fileName: String) -> [Person] {
         var persons = [Person]()
+        var groups = self.parseHTMLForGroups(from: HtmlEnum.phoneBook.rawValue)
         
         // Получаем путь к файлу
         guard let filePath = Bundle.main.path(forResource: HtmlEnum.phoneBook.rawValue, ofType: "html") else {
@@ -75,14 +76,25 @@ class HTMLParser {
             
             //Создаю объекты Person
             let tagsOfPerson = try document.select("tr")
+            
+            
 
             for tag in tagsOfPerson {
                 var groupId = try tag.attr("class")
+                
+                var groupIdName: String = ""
                 
                 if groupId.hasPrefix("SortList") {
                     
                     //Получаю ID группы для Person
                     groupId = String(groupId.dropFirst(9))
+                    
+                    for group in groups {
+                        if group.id == groupId {
+                            groupIdName = group.groupName
+                        }
+                    }
+                    
                     let personId = try tag.attr("id")
                     
                     //Получаю должность для Person
@@ -105,8 +117,10 @@ class HTMLParser {
                     let buildingRoom = try tag.select("td:nth-child(5)").text()
                     
                     
+                    
+                    
 
-                    let person = Person(groupId: groupId, personId: personId, jobTitle: jobTitle, personName: personName, workPhone: workPhone, cityPhone: cityPhone, buildingRoom: buildingRoom)
+                    let person = Person(groupId: groupId,groupIdName: groupIdName, personId: personId, jobTitle: jobTitle, personName: personName, workPhone: workPhone, cityPhone: cityPhone, buildingRoom: buildingRoom)
                     persons.append(person)
                 }
                 

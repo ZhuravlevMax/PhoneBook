@@ -42,7 +42,12 @@ extension PersonViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return viewModel.arrayOfGroups[section].keys.first //groupId
+        //return viewModel.arrayOfGroups[section].keys.first //groupId
+        let group = viewModel.arrayOfGroups[section]
+        if let persons = group.values.first, let firstPerson = persons.first {
+            return firstPerson.groupIdName
+        }
+        return nil
     }
     
     
