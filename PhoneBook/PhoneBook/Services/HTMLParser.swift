@@ -11,13 +11,13 @@ import SwiftSoup
 
 class HTMLParser {
     
-    static func parseHTMLForGroups(from fileName: String) -> [String:String] {
-        var groupDict = [String:String]()
+    static func parseHTMLForGroups(from fileName: String) -> [Group] {
+        var groups: [Group] = []
         
         // Получаем путь к файлу
         guard let filePath = Bundle.main.path(forResource: HtmlEnum.phoneBook.rawValue, ofType: "html") else {
             print("Файл не найден")
-            return groupDict
+            return groups
         }
         
         do {
@@ -37,9 +37,11 @@ class HTMLParser {
             
                 let nameOfGroup = try tag.text()
                 
+                
                 if id.hasPrefix("#group") {
                     id = String(id.dropFirst(9))
-                    groupDict.updateValue(nameOfGroup, forKey: id)
+                    let group = Group(id: id, groupName: nameOfGroup)
+                    groups.append(group)
                 }
 
             }
@@ -48,7 +50,7 @@ class HTMLParser {
             print("Ошибка при парсинге HTML: \(error)")
         }
         
-        return groupDict
+        return groups
         
         
         

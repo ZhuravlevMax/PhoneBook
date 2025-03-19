@@ -29,7 +29,6 @@ class PersonViewController: UIViewController {
     private func loadData() {
         viewModel.loadData { [weak self] in
             self?.tableView.reloadData()
-            print(self?.viewModel.groupsOfPersons["91cd0718-2d11-43ee-a2b2-e7898b2d662b"])
         }
         
     }
@@ -39,23 +38,29 @@ class PersonViewController: UIViewController {
 extension PersonViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        viewModel.groupsOfPersons.count
+        viewModel.arrayOfGroups.count
     }
     
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return viewModel.arrayOfGroups[section].keys.first //groupId
+    }
+    
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //return viewModel.numberOfPersons
-        let key = Array(viewModel.groupsOfPersons.keys)[section]
-        return viewModel.groupsOfPersons[key]?.count ?? 0
+        let group = viewModel.arrayOfGroups[section]
+        return group.values.first?.count ?? 0 //Количество Person в группе
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PersonTableViewCell.reuseIdentifier, for: indexPath) as! PersonTableViewCell
-        let key = Array(viewModel.groupsOfPersons.keys)[indexPath.section]
-        if let person = viewModel.groupsOfPersons[key]?[indexPath.row] {
+        
+        let group = viewModel.arrayOfGroups[indexPath.section]
+        
+        if let persons = group.values.first { //first применяем для проверки, что объект точно есть, что он не нил
+            let person = persons[indexPath.row]
             cell.configure(with: person)
         }
-        //let person = viewModel.person(at: indexPath.row)
-        
+
         return cell
     }
 }
