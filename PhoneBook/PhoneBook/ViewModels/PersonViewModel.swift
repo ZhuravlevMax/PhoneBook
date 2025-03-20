@@ -24,8 +24,6 @@ class PersonViewModel {
         return persons[index]
     }
     
-    
-    
     func loadData(completion: @escaping () -> Void) {
         // Используем сервис для парсинга HTML
         DispatchQueue.global(qos: .background).async {
@@ -37,9 +35,9 @@ class PersonViewModel {
             }
         }
     }
-
+    
     func dividePeopleToGroups(_ persons: [Person]) -> [[String: [Person]]] {
-
+        
         var groupedPersons: [String: [Person]] = [:]
         var groupOrder: [String] = [] // Массив для сохранения порядка групп
         
@@ -58,13 +56,13 @@ class PersonViewModel {
             
         }
         //Создаем массив словарей с сохранением порядка групп
-            
-            let arrayOfGroups: [[String: [Person]]] = groupOrder.map {
-                groupId in
-                return [groupId: groupedPersons[groupId] ?? []]
-            }
-
+        
+        let arrayOfGroups: [[String: [Person]]] = groupOrder.map {
+            groupId in
+            return [groupId: groupedPersons[groupId] ?? []]
+        }
+        
         return arrayOfGroups
     }
-
+    
 }

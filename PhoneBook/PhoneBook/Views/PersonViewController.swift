@@ -17,6 +17,7 @@ class PersonViewController: UIViewController {
         setupTableView()
         loadData()
         
+        
     }
     
     private func setupTableView() {
@@ -24,6 +25,9 @@ class PersonViewController: UIViewController {
         tableView.frame = view.bounds
         tableView.register(PersonTableViewCell.self, forCellReuseIdentifier: PersonTableViewCell.reuseIdentifier)
         tableView.dataSource = self
+        tableView.rowHeight = UITableView.automaticDimension // Автоматическая высота
+        tableView.estimatedRowHeight = 100 // Примерная высота для оптимизации
+
     }
     
     private func loadData() {
@@ -65,7 +69,7 @@ extension PersonViewController: UITableViewDataSource {
             let person = persons[indexPath.row]
             cell.configure(with: person)
         }
-
+        
         return cell
     }
 }

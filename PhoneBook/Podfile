@@ -7,5 +7,6 @@ target 'PhoneBook' do
 
   # Pods for PhoneBook
 pod 'SwiftSoup'
+pod 'SnapKit'
 
 end

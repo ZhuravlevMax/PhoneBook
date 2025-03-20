@@ -27,14 +27,14 @@ class HTMLParser {
             
             // Парсинг HTML
             let document = try SwiftSoup.parse(html)
-
+            
             // создаю словарь с ID группамми и их названиями
             let tagsOfGroups = try document.select("a")
             
             for tag in tagsOfGroups {
                 
                 var id = try tag.attr("href")
-            
+                
                 let nameOfGroup = try tag.text()
                 
                 
@@ -43,7 +43,7 @@ class HTMLParser {
                     let group = Group(id: id, groupName: nameOfGroup)
                     groups.append(group)
                 }
-
+                
             }
             
         } catch {
@@ -51,14 +51,11 @@ class HTMLParser {
         }
         
         return groups
-        
-        
-        
     }
     
     static func parseHTMLForPersons(from fileName: String) -> [Person] {
         var persons = [Person]()
-        var groups = self.parseHTMLForGroups(from: HtmlEnum.phoneBook.rawValue)
+        let groups = self.parseHTMLForGroups(from: HtmlEnum.phoneBook.rawValue)
         
         // Получаем путь к файлу
         guard let filePath = Bundle.main.path(forResource: HtmlEnum.phoneBook.rawValue, ofType: "html") else {
@@ -77,8 +74,6 @@ class HTMLParser {
             //Создаю объекты Person
             let tagsOfPerson = try document.select("tr")
             
-            
-
             for tag in tagsOfPerson {
                 var groupId = try tag.attr("class")
                 
@@ -116,26 +111,13 @@ class HTMLParser {
                     let cityPhone = try tag.select("td:nth-child(4)").text()
                     let buildingRoom = try tag.select("td:nth-child(5)").text()
                     
-                    
-                    
-                    
-
                     let person = Person(groupId: groupId,groupIdName: groupIdName, personId: personId, jobTitle: jobTitle, personName: personName, workPhone: workPhone, cityPhone: cityPhone, buildingRoom: buildingRoom)
                     persons.append(person)
                 }
                 
-        
+                
             }
-
-            print(persons.count)
-            print(persons[10].groupId)
-            print(persons[10].personId)
-            print(persons[10].jobTitle)
-            print(persons[10].personName)
-            print(persons[10].workPhone)
-            print(persons[10].cityPhone)
-            print(persons[10].buildingRoom)
-
+            
         } catch {
             print("Ошибка при парсинге HTML: \(error)")
         }
