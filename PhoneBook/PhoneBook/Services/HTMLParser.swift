@@ -94,19 +94,18 @@ class HTMLParser {
                     
                     //Получаю должность для Person
                     //Здесь я получил должность с именем. Чтобы оставить только должность, я делаю должность с маленькой буквы и убирают весь текст, который начинается с больщой буквы (Имя)
+                    let personName = try tag.select("strong").text()
                     var jobTitle = try tag.select("td:nth-child(2)").text()
-                    //Здесь делаю должность с маленькой буквы
-                    jobTitle = jobTitle.prefix(1).lowercased() + jobTitle.dropFirst()
                     
-                    //Здесь убираю часть строки с именем
-                    if let range = jobTitle.range(of: "[А-ЯA-Z]", options: .regularExpression) {
-                        jobTitle = String(jobTitle[..<range.lowerBound])
-                        
+                    //убираю фамилию из должности
+                    let jobTitleWords = jobTitle.components(separatedBy: .whitespaces)
+                    let personNameWords = personName.components(separatedBy: .whitespaces)
+                    let filteredJobTitle = jobTitleWords.filter {
+                        !personNameWords.contains($0)
                     }
                     
-                    jobTitle = jobTitle.prefix(1).uppercased() + jobTitle.dropFirst()
+                    jobTitle = filteredJobTitle.joined(separator: " ")
                     
-                    let personName = try tag.select("strong").text()
                     let workPhone = try tag.select("td:nth-child(3)").text()
                     let cityPhone = try tag.select("td:nth-child(4)").text()
                     let buildingRoom = try tag.select("td:nth-child(5)").text()
