@@ -24,7 +24,12 @@ class PersonViewModel {
         return persons[index]
     }
     
+    func getAllPersons() -> [Person] {
+        return persons
+    }
+    
     func loadData(completion: @escaping () -> Void) {
+
         // Используем сервис для парсинга HTML
         DispatchQueue.global(qos: .background).async {
             self.persons = HTMLParser.parseHTMLForPersons(from: HtmlEnum.phoneBook.rawValue)
@@ -34,7 +39,18 @@ class PersonViewModel {
                 completion()
             }
         }
+
+        
     }
+    
+//    func getAllPersons(completion: @escaping () -> Void) {
+//        DispatchQueue.global(qos: .background).async {
+//            self.persons = HTMLParser.parseHTMLForPersons(from: HtmlEnum.phoneBook.rawValue)
+//            DispatchQueue.main.async {
+//                completion()
+//            }
+//        }
+//    }
     
     func dividePeopleToGroups(_ persons: [Person]) -> [[String: [Person]]] {
         
